@@ -42,15 +42,7 @@ import { toast } from "sonner"
 // Language display names
 const languageNames: Record<Language, string> = {
   en: "English",
-  zh: "中文 (Chinese)",
-  fr: "Français (French)",
-  de: "Deutsch (German)",
-  es: "Español (Spanish)",
-  nl: "Nederlands (Dutch)",
-  ko: "한국어 (Korean)",
-  ja: "日本語 (Japanese)",
-  it: "Italiano (Italian)",
-  pt: "Português (Portuguese)",
+  ko: "한국어 (Korean)"
 }
 
 // Icon mapping for UI components
