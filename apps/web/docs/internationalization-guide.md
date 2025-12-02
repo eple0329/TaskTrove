@@ -670,11 +670,6 @@ render(<YourComponent {...props} />, { wrapper: TestWrapper })
 
 **Problem:** Tests with custom Jotai mocks fail after switching to `@/test-utils` with:
 
-```
-Error: [vitest] No "Provider" export is defined on the "jotai" mock.
-Did you forget to return it from "vi.mock"?
-```
-
 **Root Cause:**
 
 - `@/test-utils` includes `TestJotaiProvider` which requires the `Provider` export from Jotai

@@ -5,7 +5,7 @@
 
 let audioContext: AudioContext | null = null;
 const suppressAudioWarnings =
-  typeof process !== "undefined" && process.env.VITEST === "true";
+  typeof process !== "undefined";
 
 const logAudioWarning = (...args: unknown[]) => {
   if (suppressAudioWarnings) return;
