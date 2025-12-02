@@ -96,6 +96,10 @@
     "upcoming": {
       "description": "Plan ahead with tasks scheduled for future dates",
       "title": "Upcoming"
+    },
+    "eisenhower": {
+      "description": "Prioritize tasks by urgency and importance",
+      "title": "Eisenhower"
     }
   },
   "viewOptions": {

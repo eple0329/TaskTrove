@@ -22,6 +22,7 @@ import { KanbanBoard } from "@/components/views/kanban-board"
 import { CalendarView } from "@/components/views/calendar-view"
 import { TableView } from "@/components/views/table-view"
 import { StatsView } from "@/components/views/stats-view"
+import { EisenhowerMatrix } from "@/components/views/eisenhower-matrix"
 import { AnalyticsDashboard } from "@/components/analytics/analytics-dashboard"
 import { TaskEmptyState } from "@/components/task/task-empty-state"
 import { PermissionChecker } from "@/components/startup/permission-checker"
@@ -66,6 +67,10 @@ export function MainContent({ onVoiceCommand }: MainContentProps): React.ReactEl
     return `task-list-${currentView}`
   }
   const renderContent = () => {
+    if (routeContext.routeType === "standard" && routeContext.viewId === "eisenhower") {
+      return <EisenhowerMatrix />
+    }
+
     switch (currentView) {
       case "analytics":
         return <AnalyticsDashboard />

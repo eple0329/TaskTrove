@@ -109,6 +109,10 @@
         "description": "Return to your last active page",
         "label": "Last Viewed"
       },
+      "eisenhower": {
+        "description": "Start with the Eisenhower matrix view",
+        "label": "Eisenhower"
+      },
       "today": {
         "description": "Keep up with everything scheduled for today",
         "label": "Today"

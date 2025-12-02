@@ -1,6 +1,15 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentProps,
+  type ForwardRefExoticComponent,
+  type PropsWithoutRef,
+  type RefAttributes,
+} from "react"
 import {
   dropTargetForElements,
   type ElementDropTargetEventBasePayload,
@@ -24,6 +33,12 @@ import {
   broadcastActiveTarget,
   subscribeActiveTarget,
 } from "@/lib/dnd/active-target-bus"
+
+type GroupDropIndicatorProps = ComponentProps<typeof GroupDropIndicator> & { className?: string }
+
+const GroupDropIndicatorWithClass = GroupDropIndicator as unknown as ForwardRefExoticComponent<
+  PropsWithoutRef<GroupDropIndicatorProps> & RefAttributes<HTMLDivElement>
+>
 
 export type DropTargetMode = "list-item" | "group" | "tree-item"
 export type Instruction = ListInstruction | TreeInstruction
@@ -266,9 +281,9 @@ export function DropTargetItem({
     return (
       <div className={cn(className, "flex-1 flex")} data-testid={`drop-target-${id}`}>
         {/* NOTE: important!!! Do not remove the className on GroupDropIndicator!!! The className must be applied on this element or the UI would break */}
-        <GroupDropIndicator isActive={isOver} ref={ref} className="flex flex-1">
+        <GroupDropIndicatorWithClass isActive={isOver} ref={ref} className="flex flex-1">
           {children}
-        </GroupDropIndicator>
+        </GroupDropIndicatorWithClass>
       </div>
     )
   }

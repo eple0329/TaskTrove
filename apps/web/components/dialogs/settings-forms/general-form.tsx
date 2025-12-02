@@ -33,6 +33,7 @@ import {
   Eye,
   EyeOff,
   ExternalLink,
+  LayoutDashboard,
 } from "lucide-react"
 import { useTranslation } from "@tasktrove/i18n"
 import { languages, type Language, isValidLanguage } from "@/lib/i18n/settings"
@@ -59,6 +60,7 @@ const ICON_MAP = {
   today: Calendar,
   upcoming: Clock,
   completed: CheckSquare,
+  eisenhower: LayoutDashboard,
   lastViewed: Home,
 } as const
 
@@ -111,6 +113,15 @@ export function GeneralForm() {
       description: t(
         "general.startView.completed.description",
         START_VIEW_METADATA.completed.description,
+      ),
+    },
+    {
+      value: "eisenhower",
+      icon: ICON_MAP.eisenhower,
+      label: t("general.startView.eisenhower.label", START_VIEW_METADATA.eisenhower.title),
+      description: t(
+        "general.startView.eisenhower.description",
+        START_VIEW_METADATA.eisenhower.description,
       ),
     },
     {

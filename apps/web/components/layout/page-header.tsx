@@ -26,6 +26,7 @@ import {
   Inbox,
   Folder,
   Tag,
+  LayoutDashboard,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ViewOptionsPopover } from "./view-options-popover"
@@ -152,6 +153,8 @@ export function PageHeader({
         return <ListCheck {...iconProps} />
       case "completed":
         return <CheckSquare {...iconProps} />
+      case "eisenhower":
+        return <LayoutDashboard {...iconProps} />
       case "search":
         return <Search {...iconProps} />
       default:

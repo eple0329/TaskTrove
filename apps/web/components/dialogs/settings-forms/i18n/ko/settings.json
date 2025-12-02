@@ -123,6 +123,10 @@
         "description": "마지막 활성 페이지로 돌아가기",
         "label": "마지막 본 항목"
       },
+      "eisenhower": {
+        "description": "아이젠하워 매트릭스 뷰로 시작",
+        "label": "아이젠하워"
+      },
       "today": {
         "description": "오늘의 작업에 집중",
         "label": "오늘"

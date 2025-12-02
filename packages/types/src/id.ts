@@ -117,7 +117,9 @@ export type StandardViewId =
   | "today"
   | "upcoming"
   | "completed"
-  | "calendar";
+  | "calendar"
+  | "habits"
+  | "eisenhower";
 
 /**
  * View identifier - can be a standard view ID, project slug, label slug, or custom view

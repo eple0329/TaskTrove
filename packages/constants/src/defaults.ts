@@ -126,6 +126,7 @@ export const STANDARD_VIEW_IDS = [
   "inbox",
   "today",
   "upcoming",
+  "eisenhower",
   "completed",
   "calendar",
   "habits",
@@ -168,6 +169,11 @@ export const STANDARD_VIEW_METADATA: Record<
     title: "Upcoming",
     description: "Plan ahead with tasks scheduled for future dates",
     iconType: "upcoming" as const,
+  },
+  eisenhower: {
+    title: "Eisenhower",
+    description: "Prioritize tasks by urgency and importance",
+    iconType: "eisenhower" as const,
   },
   completed: {
     title: "Completed",
