@@ -8,15 +8,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Table of Contents
 
-- [Monorepo Structure](#monorepo-structure)
-- [Essential Commands](#essential-commands)
-- [Architecture Overview](#architecture-overview)
-- [Type System](#type-system)
-- [TypeScript Guidelines](#typescript-guidelines)
-- [Components Guidelines](#components-guidelines)
-- [API](#api)
-- [Tools](#tools)
-- [Troubleshooting](#troubleshooting)
+- [CLAUDE.md](#claudemd)
+- [Private Memory Files](#private-memory-files)
+  - [Table of Contents](#table-of-contents)
+  - [Monorepo Structure](#monorepo-structure)
+  - [Essential Commands](#essential-commands)
+  - [Architecture Overview](#architecture-overview)
+  - [Type System](#type-system)
+  - [TypeScript Guidelines](#typescript-guidelines)
+  - [Components Guidelines](#components-guidelines)
+  - [API](#api)
+  - [Tools](#tools)
+  - [Troubleshooting](#troubleshooting)
 
 ## Monorepo Structure
 
@@ -188,7 +191,6 @@ Follow Conventional Commits Standard: `<type>[scope]: <description>` (e.g., `fea
 
 - Uses latest versions of React/Next.js
 - Extensive Radix UI component library
-- Vitest + React Testing Library for testing
 - pnpm as package manager with workspaces
 
 **Testing Guidelines:**

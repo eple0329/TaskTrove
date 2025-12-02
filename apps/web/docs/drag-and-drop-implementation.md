@@ -175,34 +175,6 @@ const destinationIndex = getReorderDestinationIndex({
 
 For cross-section moves, manually splice the dragged ids at the correct index and filter them out of other sections.
 
-## Testing
-
-### Polyfills
-
-In `test-setup.ts` we polyfill DOMRect and DragEvent (pragmatic's unit testing polyfills are ESM and not currently available via pnpm). Ensure this file is listed in the Vitest `setupFiles`.
-
-### Patterns
-
-- **Hook tests** (`hooks/use-reset-sort-on-drag.test.tsx`): use Jotai's `createStore()` with `<Provider>` to assert sort state transitions and shared drag id cleanup. Dispatch `window.dispatchEvent(new Event("dragend"))` to emulate global drops.
-- **Component tests** (`components/task/draggable-task-element.test.tsx`): mock `DraggableItem`, call captured `onDragStart`/`onDrop`, and verify both sort state and `draggingTaskIdsAtom`.
-- **Section tests**: mock `DropTargetElement` to capture `onDrop`, then invoke the handler with a crafted payload to validate project/task updates. (TODO: add coverage for cross-section moves and multi-select.)
-
-### Example Mock
-
-```ts
-const handlers: { onDragStart?: () => void; onDrop?: () => void } = {}
-
-vi.mock("@/components/ui/drag-drop", () => ({
-  DraggableItem: ({ onDragStart, onDrop, children }: PropsWithChildren<DraggableProps>) => {
-    handlers.onDragStart = onDragStart
-    handlers.onDrop = onDrop
-    return <div>{children}</div>
-  },
-}))
-```
-
-This pattern bypasses complex DOM event simulation and keeps tests focused on business logic.
-
 ## Performance Notes
 
 - Virtualization (`VirtualizedTaskList`) dramatically reduces DOM nodes; ensure drag wrappers integrate seamlessly with the virtualizer's measure callbacks.
