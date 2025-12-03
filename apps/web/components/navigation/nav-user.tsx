@@ -1,27 +1,14 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
-import {
-  Info,
-  Bug,
-  ChevronsUpDown,
-  LogOut,
-  Settings,
-  Keyboard,
-  Download,
-  CheckCircle2,
-} from "lucide-react"
-import { SiGithub, SiDiscord } from "@icons-pack/react-simple-icons"
+import React, { useState } from "react"
+import { ChevronsUpDown, LogOut, Settings } from "lucide-react"
 import { signOut } from "next-auth/react"
 import { toast } from "sonner"
 import { useAtomValue, useSetAtom } from "jotai"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -30,24 +17,13 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/custom/sidebar"
-import { AboutModal } from "@/components/dialogs/about-modal"
 import { useTranslation } from "@tasktrove/i18n"
 import { userAtom } from "@tasktrove/atoms/data/base/atoms"
 import { openSettingsDialogAtom, openUserProfileDialogAtom } from "@tasktrove/atoms/ui/dialogs"
-import { ComingSoonWrapper } from "@/components/ui/coming-soon-wrapper"
 import { LogoutConfirmDialog } from "@/components/dialogs/logout-confirm-dialog"
-import { showPWAInstallPrompt, isPWA } from "@tasktrove/dom-utils"
 import { THEME_COLORS } from "@tasktrove/constants"
 import { UserAvatar } from "@/components/ui/custom/user-avatar"
 import { RoleBadge } from "@/components/navigation/role-badge"
-import { isPro } from "@/lib/utils/env"
-
-interface ContextMenuItem {
-  icon: React.ComponentType<{ className?: string }>
-  label: string
-  onClick?: () => void
-  comingSoon?: boolean
-}
 
 // No longer need NavUserProps - getting user from userAtom
 
@@ -56,19 +32,12 @@ export function NavUser() {
   const { t } = useTranslation("navigation")
 
   const { isMobile } = useSidebar()
-  const [aboutModalOpen, setAboutModalOpen] = useState(false)
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false)
-  const [isRunningAsPWA, setIsRunningAsPWA] = useState(false)
   const openSettingsDialog = useSetAtom(openSettingsDialogAtom)
   const openUserProfileDialog = useSetAtom(openUserProfileDialogAtom)
 
   // Get user data from atom
   const user = useAtomValue(userAtom)
-
-  // Check if running as PWA
-  useEffect(() => {
-    setIsRunningAsPWA(isPWA())
-  }, [])
 
   const handleSignOut = () => {
     setLogoutDialogOpen(true)
@@ -79,39 +48,6 @@ export function NavUser() {
     toast.success("Signed out")
     window.location.reload()
   }
-
-  const contextMenuItems: ContextMenuItem[] = [
-    {
-      icon: Bug,
-      label: t("userMenu.reportBug", "Report Bug"),
-      onClick: () => window.open("https://github.com/dohsimpson/TaskTrove/discussions", "_blank"),
-    },
-    {
-      icon: SiGithub,
-      label: t("userMenu.github", "Github"),
-      onClick: () => window.open("https://github.com/dohsimpson/TaskTrove", "_blank"),
-    },
-    {
-      icon: SiDiscord,
-      label: t("userMenu.community", "Community"),
-      onClick: () => window.open("https://discord.gg/ePRuB68Wsh", "_blank"),
-    },
-    {
-      icon: Keyboard,
-      label: t("userMenu.shortcuts", "Shortcuts"),
-      comingSoon: true,
-    },
-    {
-      icon: Download,
-      label: t("userMenu.installApp", "Install App"),
-      onClick: showPWAInstallPrompt,
-    },
-    {
-      icon: Info,
-      label: t("userMenu.about", "About"),
-      onClick: () => setAboutModalOpen(true),
-    },
-  ]
 
   return (
     <>
@@ -179,70 +115,10 @@ export function NavUser() {
                   </div>
                 </div>
               </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {!isPro() && (
-                <>
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem
-                      onClick={() => window.open("https://tasktrove.io/#pricing", "_blank")}
-                      className="px-1 cursor-pointer"
-                    >
-                      {/* material design icon "Stars": https://github.com/google/material-design-icons */}
-                      <svg
-                        className="mr-1 h-6 w-6 text-yellow-500 font-bold fill-current shrink-0 min-h-[24px] min-w-[24px]"
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="24px"
-                        viewBox="0 -960 960 960"
-                        width="24px"
-                        fill={THEME_COLORS.navIconFill}
-                      >
-                        <path d="m320-240 160-122 160 122-60-198 160-114H544l-64-208-64 208H220l160 114-60 198ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
-                      </svg>
-                      <span className="font-bold">
-                        {t("userMenu.upgradeToPro", "Upgrade to Pro")}
-                      </span>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                </>
-              )}
-              <DropdownMenuGroup>
-                {contextMenuItems.map((item, index) => {
-                  const isInstallAppItem = item.icon === Download
-                  return (
-                    <DropdownMenuItem
-                      key={index}
-                      onClick={item.comingSoon ? undefined : item.onClick}
-                      className="cursor-pointer"
-                    >
-                      {item.comingSoon ? (
-                        <ComingSoonWrapper
-                          disabled={true}
-                          featureName={item.label}
-                          className="flex items-center w-full"
-                        >
-                          <item.icon className="mr-4 h-4 w-4" />
-                          {item.label}
-                        </ComingSoonWrapper>
-                      ) : (
-                        <>
-                          <item.icon className="mr-2 h-4 w-4" />
-                          {item.label}
-                          {isInstallAppItem && isRunningAsPWA && (
-                            <CheckCircle2 className="ml-auto h-4 w-4 text-green-500" />
-                          )}
-                        </>
-                      )}
-                    </DropdownMenuItem>
-                  )
-                })}
-              </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
         </SidebarMenuItem>
       </SidebarMenu>
-
-      <AboutModal open={aboutModalOpen} onOpenChange={setAboutModalOpen} />
       <LogoutConfirmDialog
         open={logoutDialogOpen}
         onOpenChange={setLogoutDialogOpen}

@@ -8,7 +8,6 @@ export * from "./toast";
 export * from "./notifications";
 export * from "./keyboard";
 export * from "./type-safe-dom";
-export * from "./pwa";
 export * from "./drag-and-drop";
 export * from "./browser";
 export * from "./visibility";
@@ -38,7 +37,6 @@ export {
   createTouchEventHandler,
   safeCast,
 } from "./type-safe-dom";
-export { showPWAInstallPrompt, isPWA } from "./pwa";
 export {
   extractDropPayload,
   calculateInsertIndex,

@@ -126,7 +126,6 @@ export function EisenhowerMatrix() {
       <div className="rounded-2xl border bg-muted/40 px-4 py-3">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-xl font-semibold text-foreground">아이젠하워 매트릭스</h1>
             <p className="text-sm text-muted-foreground">
               우선순위를 한눈에 보고 빠르게 처리할 일을 정리하세요.
             </p>
