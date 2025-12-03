@@ -32,7 +32,6 @@ import { isPro } from "@/lib/utils/env"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { TaskSchedulePopover } from "./task-schedule-popover"
 import { TaskScheduleTrigger } from "./task-schedule-trigger"
-import { CommentManagementPopover } from "./comment-management-popover"
 import { SubtaskPopover } from "./subtask-popover"
 import { PriorityPopover } from "./priority-popover"
 import { ProjectPopover } from "./project-popover"
@@ -54,7 +53,6 @@ import {
   toggleTaskSelectionAtom,
   selectedTasksAtom,
 } from "@tasktrove/atoms/ui/selection"
-import { addCommentAtom } from "@tasktrove/atoms/core/tasks"
 import { focusTimerStatusAtom, activeFocusTimerAtom } from "@tasktrove/atoms/ui/focus-timer"
 import { addLabelAndWaitForRealIdAtom, labelsFromIdsAtom } from "@tasktrove/atoms/core/labels"
 import {
@@ -238,7 +236,6 @@ export function TaskItem({
   const toggleTask = useSetAtom(toggleTaskAtom)
   const deleteTask = useSetAtom(deleteTaskAtom)
   const updateTask = useSetAtom(updateTaskAtom)
-  const addComment = useSetAtom(addCommentAtom)
   const toggleTaskPanel = useSetAtom(toggleTaskPanelWithViewStateAtom)
   const toggleTaskSelection = useSetAtom(toggleTaskSelectionAtom)
   const selectRange = useSetAtom(selectRangeAtom)
@@ -602,17 +599,6 @@ export function TaskItem({
                     )}
                   </span>
                 </SubtaskPopover>
-
-                {/* Comments */}
-                <CommentManagementPopover
-                  task={task}
-                  onAddComment={(content) => addComment({ taskId: task.id, content })}
-                >
-                  <span className="flex items-center gap-1 cursor-pointer hover:text-foreground hover:bg-accent transition-colors">
-                    <MessageSquare className="h-3 w-3" />
-                    {task.comments.length > 0 && task.comments.length}
-                  </span>
-                </CommentManagementPopover>
               </div>
 
               <div className="flex items-center gap-1">
@@ -1048,28 +1034,6 @@ export function TaskItem({
               </SubtaskPopover>
             )}
 
-            {/* Comments - show if present or on hover */}
-            {task.comments.length > 0 ? (
-              <CommentManagementPopover
-                task={task}
-                onAddComment={(content) => addComment({ taskId: task.id, content })}
-              >
-                <span className="flex items-center gap-1 cursor-pointer hover:opacity-100 text-foreground hover:bg-accent transition-colors">
-                  <MessageSquare className="h-3 w-3" />
-                  {task.comments.length}
-                </span>
-              </CommentManagementPopover>
-            ) : (
-              <CommentManagementPopover
-                task={task}
-                onAddComment={(content) => addComment({ taskId: task.id, content })}
-              >
-                <span className="flex items-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent transition-colors opacity-70 hover:opacity-100">
-                  <MessageSquare className="h-3 w-3" />
-                </span>
-              </CommentManagementPopover>
-            )}
-
             {/* Attachments feature removed */}
           </div>
 
@@ -1470,52 +1434,6 @@ export function TaskItem({
                 )}
               </SubtaskPopover>,
             )
-
-            // Comments - Use unified popover for both viewing and adding
-            if (task.comments.length > 0) {
-              leftMetadataItems.push(
-                <CommentManagementPopover
-                  key="comments"
-                  task={task}
-                  onAddComment={(content) => addComment({ taskId: task.id, content })}
-                  onOpenChange={(open) => {
-                    if (!open) return
-                    // TODO: Handle onViewAll functionality if needed
-                  }}
-                >
-                  <span
-                    className={cn(
-                      "flex items-center gap-1 cursor-pointer hover:bg-accent transition-colors hover:opacity-100 text-foreground",
-                      METADATA_COLUMN_WIDTH,
-                    )}
-                  >
-                    <MessageSquare className="h-3 w-3" />
-                    {task.comments.length}
-                  </span>
-                </CommentManagementPopover>,
-              )
-            } else {
-              // Show add comment button when no comments exist
-              leftMetadataItems.push(
-                <CommentManagementPopover
-                  key="comments"
-                  task={task}
-                  onAddComment={(content) => addComment({ taskId: task.id, content })}
-                >
-                  <span
-                    className={cn(
-                      "group flex items-center gap-1 cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap opacity-70 hover:opacity-100",
-                      METADATA_COLUMN_WIDTH,
-                    )}
-                  >
-                    <MessageSquare className="h-3 w-3" />
-                    <TruncatedMetadataText showOnHover className="text-xs">
-                      {t("actions.addComment", "Add comment")}
-                    </TruncatedMetadataText>
-                  </span>
-                </CommentManagementPopover>,
-              )
-            }
 
             // Right side - Flexible width items
             // Labels - Now clickable with popover for editing

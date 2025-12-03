@@ -47,7 +47,6 @@ import { TaskPriorityPopover } from "@/components/task/task-priority-popover"
 import { TimeEstimationPopover } from "@/components/task/time-estimation-popover"
 import { formatTime } from "@/lib/utils/time-estimation"
 import { SubtaskPopover } from "@/components/task/subtask-popover"
-import { CommentManagementPopover } from "@/components/task/comment-management-popover"
 import { SubmitButton } from "@/components/ui/custom/submit-button"
 import { ContentPopover } from "@/components/ui/content-popover"
 import {
@@ -769,24 +768,6 @@ export function QuickAddDialog() {
                       )}
                     />
                   </SubtaskPopover>
-
-                  {/* Comments */}
-                  <CommentManagementPopover onOpenChange={() => {}}>
-                    <PillActionButton
-                      icon={<MessageSquare className="h-3 w-3 flex-shrink-0" />}
-                      label={t("quickAdd.buttons.comments", "Comments")}
-                      display={
-                        newTask.comments && newTask.comments.length > 0
-                          ? `${newTask.comments.length}`
-                          : undefined
-                      }
-                      className={cn(
-                        newTask.comments && newTask.comments.length > 0
-                          ? "text-foreground font-medium"
-                          : "text-muted-foreground",
-                      )}
-                    />
-                  </CommentManagementPopover>
 
                   {/* Section button removed; section selection is integrated into Project popover */}
 
