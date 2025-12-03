@@ -13,7 +13,7 @@
  */
 
 import { atom } from "jotai";
-import type { WritableAtom } from "jotai";
+import type { Getter, WritableAtom } from "jotai";
 import { withHistory, UNDO, REDO, RESET } from "jotai-history";
 import { handleAtomError, log } from "@tasktrove/atoms/utils/atom-helpers";
 import {
@@ -44,6 +44,29 @@ const HISTORY_CONFIG = {
   projects: 30, // Projects change less frequently
   labels: 20, // Labels change rarely
 } as const;
+
+// Helper to log current history capabilities after updates
+export const logHistorySnapshot = (get: Getter) => {
+  try {
+    const tasksHistory = get(tasksHistoryAtom);
+    const projectsHistory = get(projectsHistoryAtom);
+    const labelsHistory = get(labelsHistoryAtom);
+
+    log.info(
+      {
+        module: "history",
+        snapshot: {
+          tasks: { canUndo: tasksHistory.canUndo, canRedo: tasksHistory.canRedo },
+          projects: { canUndo: projectsHistory.canUndo, canRedo: projectsHistory.canRedo },
+          labels: { canUndo: labelsHistory.canUndo, canRedo: labelsHistory.canRedo },
+        },
+      },
+      "History snapshot updated",
+    );
+  } catch (error) {
+    handleAtomError(error, "logHistorySnapshot");
+  }
+};
 
 // =============================================================================
 // HISTORY-ENABLED ATOMS
@@ -336,6 +359,9 @@ export const withOperationTracking = <T extends readonly unknown[]>(
 
       // Then perform the actual action
       set(actionAtom, ...args);
+
+      // Log the current history snapshot after the action completes
+      logHistorySnapshot(get);
     } catch (error) {
       handleAtomError(error, "withOperationTracking");
     }

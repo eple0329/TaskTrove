@@ -39,7 +39,6 @@ import { TaskSearchDialog } from "@/components/task/task-search-dialog"
 import { cn } from "@/lib/utils"
 import { createCommentId, createSubtaskId, createTaskId, createUserId } from "@/lib/types"
 import { DraggableTaskElement } from "./draggable-task-element"
-import { BulkAssigneeButton } from "@/components/task/bulk-assignee-button"
 import { DEFAULT_UUID } from "@tasktrove/constants"
 import type { TaskComment, Subtask, TaskId } from "@/lib/types"
 
@@ -265,10 +264,7 @@ export function SelectionToolbar({ className }: SelectionToolbarProps) {
                   Project
                 </Button>
               </ProjectPopover>
-
-              {/* Bulk Assignee Button */}
-              <BulkAssigneeButton taskIds={selectedTaskIds} />
-
+              
               {/* More actions dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

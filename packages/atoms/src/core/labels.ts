@@ -13,7 +13,11 @@ import {
   createLabelWithoutOptimisticUpdateAtom,
   deleteLabelMutationAtom,
 } from "@tasktrove/atoms/mutations/labels";
-import { recordOperationAtom } from "@tasktrove/atoms/core/history";
+import {
+  labelsHistoryAtom,
+  logHistorySnapshot,
+  recordOperationAtom,
+} from "@tasktrove/atoms/core/history";
 
 /**
  * Core label atoms for TaskTrove
@@ -195,7 +199,8 @@ export const updateLabelAtom = atom(
       const updatedLabels = labels.map((label: Label) =>
         label.id === update.id ? { ...label, ...update.changes } : label,
       );
-      set(labelsAtom, updatedLabels);
+      set(labelsHistoryAtom, updatedLabels);
+      logHistorySnapshot(get);
     } catch (error) {
       handleAtomError(error, "updateLabelAtom");
     }
@@ -270,7 +275,8 @@ export const reorderLabelsAtom = atom(
       reorderedLabels.splice(toIndex, 0, movedLabel);
 
       // Use the existing labelsAtom write functionality to persist changes
-      await set(labelsAtom, reorderedLabels);
+      await set(labelsHistoryAtom, reorderedLabels);
+      logHistorySnapshot(get);
     } catch (error) {
       handleAtomError(error, "reorderLabelsAtom");
       throw error;

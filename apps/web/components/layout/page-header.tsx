@@ -35,10 +35,7 @@ import { HelpPopover } from "@/components/ui/help-popover"
 import { getHelpContent } from "@/lib/help-content"
 import { useTheme } from "next-themes"
 import { useTranslation } from "@tasktrove/i18n"
-import { OnlineStatus } from "@/components/layout/online-status"
-import { RewardsBadge } from "@/components/layout/rewards-badge"
-import { NotificationsBadge } from "@/components/layout/notifications-badge"
-// import { ToolbarUndoRedo } from "@/components/history/undo-redo-buttons"
+import { ToolbarUndoRedo } from "@/components/history/undo-redo-buttons"
 
 interface PageHeaderProps {
   // Legacy props - to be removed in final cleanup
@@ -239,34 +236,11 @@ export function PageHeader({
             </Button>
           ))}
 
-          {/* Online Status Indicator */}
-          <OnlineStatus />
-
-          {/* Rewards Badge - Shows points and level (Pro only) */}
-          <RewardsBadge />
-
-          {/* Notifications Badge - Coming soon (Pro only) */}
-          <NotificationsBadge />
-
           {/* View Options Popover - Uses atoms directly */}
           <ViewOptionsPopover onAdvancedSearch={onAdvancedSearch} />
 
-          {/* Undo/Redo Buttons - Hidden until properly implemented */}
-          {/* <ToolbarUndoRedo /> */}
-
-          {/* Gamification/Rewards - Temporarily disabled */}
-          {/* <ComingSoonWrapper disabled={true} featureName="rewards system" tooltipContent="Rewards - Coming Soon!" tooltipSide="bottom">
-            <Button variant="ghost" size="icon" className="cursor-pointer">
-              <CircleDollarSign className="h-4 w-4" />
-            </Button>
-          </ComingSoonWrapper> */}
-
-          {/* Notifications - Temporarily disabled */}
-          {/* <ComingSoonWrapper disabled={true} featureName="notifications" tooltipContent="Notifications - Coming Soon!" tooltipSide="bottom">
-            <Button variant="ghost" size="icon" className="cursor-pointer">
-              <Bell className="h-4 w-4" />
-            </Button>
-          </ComingSoonWrapper> */}
+          {/* Undo/Redo Buttons - Hidden until properly implemented
+          <ToolbarUndoRedo /> */}
 
           {/* Theme Toggle */}
           <Button

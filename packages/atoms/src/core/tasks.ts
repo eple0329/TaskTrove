@@ -34,6 +34,12 @@ import {
 import { playSoundAtom } from "@tasktrove/atoms/ui/audio";
 import { notificationAtoms } from "@tasktrove/atoms/core/notifications";
 import {
+  projectsHistoryAtom,
+  recordOperationAtom,
+  tasksHistoryAtom,
+  logHistorySnapshot,
+} from "@tasktrove/atoms/core/history";
+import {
   getOrderedTasksForProject,
   getOrderedTasksForSection,
   moveTaskWithinSection,
@@ -54,7 +60,6 @@ import {
   deleteTaskMutationAtom,
 } from "@tasktrove/atoms/mutations/tasks";
 import { updateProjectsMutationAtom } from "@tasktrove/atoms/mutations/projects";
-import { recordOperationAtom } from "@tasktrove/atoms/core/history";
 import { log } from "@tasktrove/atoms/utils/atom-helpers";
 import { getEffectiveDueDate } from "@tasktrove/utils";
 
@@ -390,7 +395,8 @@ export const addCommentAtom = atom(
         }
       });
 
-      set(tasksAtom, updatedTasks);
+      set(tasksHistoryAtom, updatedTasks);
+      logHistorySnapshot(get);
 
       if (id) {
         log.info(
@@ -446,7 +452,8 @@ export const bulkActionsAtom = atom(
                 }
               : task,
           );
-          set(tasksAtom, completedTasks);
+          set(tasksHistoryAtom, completedTasks);
+          logHistorySnapshot(get);
           break;
         }
 
@@ -454,7 +461,8 @@ export const bulkActionsAtom = atom(
           const filteredTasks = tasks.filter(
             (task: Task) => !taskIds.includes(task.id),
           );
-          set(tasksAtom, filteredTasks);
+          set(tasksHistoryAtom, filteredTasks);
+          logHistorySnapshot(get);
           break;
         }
 
@@ -462,7 +470,8 @@ export const bulkActionsAtom = atom(
           const archivedTasks = tasks.map((task: Task) =>
             taskIds.includes(task.id) ? { ...task, status: "archived" } : task,
           );
-          set(tasksAtom, archivedTasks);
+          set(tasksHistoryAtom, archivedTasks);
+          logHistorySnapshot(get);
           break;
         }
       }
@@ -674,7 +683,8 @@ export const moveTaskAtom = atom(
         const updatedProjects = projects.map((p) =>
           p.id === projectId ? { ...p, sections: updatedSections } : p,
         );
-        set(projectsAtom, updatedProjects);
+        set(projectsHistoryAtom, updatedProjects);
+        logHistorySnapshot(get);
       }
     } catch (error) {
       handleAtomError(error, "moveTaskAtom");
@@ -741,7 +751,8 @@ export const moveTaskBetweenSectionsAtom = atom(
         p.id === projectId ? { ...p, sections: updatedSections } : p,
       );
 
-      set(projectsAtom, updatedProjects);
+      set(projectsHistoryAtom, updatedProjects);
+      logHistorySnapshot(get);
 
       log.info(
         {
@@ -840,7 +851,8 @@ export const reorderTaskInViewAtom = atom(
         p.id === projectId ? { ...p, sections: updatedSections } : p,
       );
 
-      set(projectsAtom, updatedProjects);
+      set(projectsHistoryAtom, updatedProjects);
+      logHistorySnapshot(get);
       log.info(
         {
           taskId: params.taskId,
@@ -896,7 +908,8 @@ export const addTaskToViewAtom = atom(
 
       // Add task to tasks array
       const tasksWithNew = [...tasks, newTask];
-      set(tasksAtom, tasksWithNew);
+      set(tasksHistoryAtom, tasksWithNew);
+      logHistorySnapshot(get);
 
       // Add to section.items instead of project.taskOrder
       // Always add to default section - UI can move tasks between sections later
@@ -924,7 +937,8 @@ export const addTaskToViewAtom = atom(
         const updatedProjects = projects.map((p) =>
           p.id === projectId ? { ...p, sections: updatedSections } : p,
         );
-        set(projectsAtom, updatedProjects);
+        set(projectsHistoryAtom, updatedProjects);
+        logHistorySnapshot(get);
 
         log.info(
           {
@@ -992,7 +1006,8 @@ export const removeTaskFromViewAtom = atom(
           const updatedProjects = projects.map((p) =>
             p.id === projectId ? { ...p, sections: updatedSections } : p,
           );
-          set(projectsAtom, updatedProjects);
+          set(projectsHistoryAtom, updatedProjects);
+          logHistorySnapshot(get);
         }
       }
 
